@@ -81,10 +81,11 @@ function calculateTotal(hand, who){
 	if(total > 21){
 		bust(who);
 	}
-
+	return total;
 }
 
 function deal(){
+	reset();
 	//Shuffled deck from function shuffleDeck
 	deck = shuffleDeck();
 	playerHand = [ deck[0], deck[2] ];
@@ -117,11 +118,31 @@ function hit(){
 }
 
 function checkWin(){
+
+}
+
+function reset(){
 	
 }
 
 function stand(){
-
+	//var dealerHas = calculateTotal(dealerHand, 'dealer');
+	var dealerHas = Number(document.getElementById('dealer-total').innerHTML);
+	var slot;
+	while(dealerHas < 17){
+		//keep hitting ... keep drawing ... get more cards
+		if(dealerTotalCards === 2){ slot = "three";}
+		else if(dealerTotalCards === 3){ slot = "four";}
+		else if(dealerTotalCards === 4){ slot = "five";}
+		else if(dealerTotalCards === 5){ slot = "six";}
+		placeCard(deck[placeInDeck], 'dealer', slot);
+		dealerHand.push(deck[placeInDeck]);
+		dealerHas = calculateTotal(dealerHand, 'dealer');
+		placeInDeck++;
+		dealerTotalCards++;
+	}
+	//WE KNOW the dealer has more than 17
+	checkWin();
 }
 
 function setName(){
